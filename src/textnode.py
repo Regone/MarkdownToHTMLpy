@@ -1,15 +1,18 @@
 from cgitb import text
 from enum import Enum
 
-class TextNode:
-    
-    class TextType(Enum):
+
+class TextType(Enum):
         Normal = 1,
-        Bold = 2,
+        BOLD = 2,
         Italic =3,
         Code = 4,
         Link = 5,
         Image = 6
+        
+class TextNode:
+    
+    
     
     def __init__(self, text,text_type,url = None):
         self.text = text
