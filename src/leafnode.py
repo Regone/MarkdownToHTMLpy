@@ -4,7 +4,7 @@ from htmlnode import HTMLNode
 class LeafNode(HTMLNode):
     def __init__(self, value, tag = None, props = None):
         super().__init__(tag,value,None,props)    
-    def to_html():
+    def to_html(self):
         if(self.value == None):
             raise ValueError
         if(self.tag == None):
@@ -15,4 +15,5 @@ class LeafNode(HTMLNode):
             s+=self.props_to_html()
         s+=">"
         s+= str(self.value)
-        s+= f"f</{self.tag}>"
+        s+= f"</{self.tag}>"
+        return s

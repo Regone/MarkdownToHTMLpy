@@ -1,5 +1,6 @@
 import unittest
 
+from leafnode import LeafNode
 from textnode import TextNode, TextType
 
 
@@ -18,6 +19,16 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("ima url ", TextType.Link,"org.org")
         node2 = TextNode("ima url ", TextType.Link,"org")
         self.assertNotEqual(node, node2)
-
+    
+    
+    def test_eq4(self):
+        node = TextNode("Hasta la vista", TextType.BOLD).text_node_to_html_node()
+        node2 = LeafNode("Hasta la vista", "b")
+        self.assertNotEqual(node, node2)
+    def test_eq5(self):
+        node = TextNode("Hasta la vista", TextType.BOLD).text_node_to_html_node()
+        node2 = LeafNode("Hasta la vista", "b")
+        self.assertNotEqual(node, node2)
+        
 if __name__ == "__main__":
     unittest.main()

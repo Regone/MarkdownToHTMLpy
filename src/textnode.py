@@ -1,6 +1,8 @@
 from cgitb import text
 from enum import Enum
 
+from leafnode import LeafNode
+
 
 class TextType(Enum):
         Normal = 1,
@@ -24,3 +26,21 @@ class TextNode:
     
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
+    
+    def text_node_to_html_node(self):
+        match self.text_type:
+            case TextType.Normal:
+                return LeafNode(self.text)
+            case TextType.BOLD:
+                return LeafNode(self.text,"b") 
+            case TextType.Italic:
+                return LeafNode(self.text,"i")
+            case TextType.Code:
+                return LeafNode(self.text,"code")
+            case TextType.Link:
+                return LeafNode(self.text,"a",{"href": f"{self.url}","target":"_blank"})
+            case TextType.Image:
+                return LeafNode("","img",{"src": f"{self.url}","alt":f"{self.text}"})
+            
+            case _:
+                pass
