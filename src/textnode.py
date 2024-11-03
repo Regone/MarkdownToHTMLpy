@@ -5,12 +5,12 @@ from leafnode import LeafNode
 
 
 class TextType(Enum):
-        Normal = 1,
+        TEXT = 1,
         BOLD = 2,
-        Italic =3,
-        Code = 4,
-        Link = 5,
-        Image = 6
+        ITALIC =3,
+        CODE = 4,
+        LINK = 5,
+        IMAGE = 6
         
 class TextNode:
     
@@ -29,17 +29,17 @@ class TextNode:
     
     def text_node_to_html_node(self):
         match self.text_type:
-            case TextType.Normal:
+            case TextType.TEXT:
                 return LeafNode(self.text)
             case TextType.BOLD:
                 return LeafNode(self.text,"b") 
-            case TextType.Italic:
+            case TextType.ITALIC:
                 return LeafNode(self.text,"i")
-            case TextType.Code:
+            case TextType.CODE:
                 return LeafNode(self.text,"code")
-            case TextType.Link:
+            case TextType.LINK:
                 return LeafNode(self.text,"a",{"href": f"{self.url}","target":"_blank"})
-            case TextType.Image:
+            case TextType.IMAGE:
                 return LeafNode("","img",{"src": f"{self.url}","alt":f"{self.text}"})
             
             case _:
