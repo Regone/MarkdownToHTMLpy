@@ -5,15 +5,15 @@ from nodetools import NodeTools
 from textnode import *
 
 class TestTextNode(unittest.TestCase):
-    def test_eq(self):
-        node = TextNode("This is text with a `code block` word", TextType.TEXT)
-        node2 = NodeTools.split_nodes_delimiter(node, "`", TextType.CODE)
-        nodes = [
-                TextNode("This is text with a ", TextType.TEXT),
-                TextNode("code block", TextType.CODE),
-                TextNode(" word", TextType.TEXT),
-                ]
-        self.assertEqual(node2, nodes)
+    # def test_eq(self):
+    #     node = TextNode("This is text with a `code block` word", TextType.TEXT)
+    #     node2 = NodeTools.split_nodes_delimiter(node, "`", TextType.CODE)
+    #     nodes = [
+    #             TextNode("This is text with a ", TextType.TEXT),
+    #             TextNode("code block", TextType.CODE),
+    #             TextNode(" word", TextType.TEXT),
+    #             ]
+    #     self.assertEqual(node2, nodes)
     
     def test_eq2(self):
         node2= NodeTools.extract_markdown_images("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)")
@@ -50,16 +50,19 @@ class TestTextNode(unittest.TestCase):
         )    
         
     def test_split_nodes_all(self):
-        # Test 1: No links
-        node = TextNode("Just plain text", TextType.TEXT)
-        
-        # Test 2: One link
-        node2 = TextNode("Click [here](https://boot.dev) please", TextType.TEXT)
-        
-        # Test 3: Multiple links with text between
-        node3 = TextNode(
-            "Start [link1](url1) middle [link2](url2) end",
-            TextType.TEXT
-        )    
+        node = TextNode("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)", TextType.TEXT)
+        node= NodeTools.text_to_textnodes(node.text)
+        self.assertEqual(node,[
+                                TextNode("This is ", TextType.TEXT),
+                                TextNode("text", TextType.BOLD),
+                                TextNode(" with an ", TextType.TEXT),
+                                TextNode("italic", TextType.ITALIC),
+                                TextNode(" word and a ", TextType.TEXT),
+                                TextNode("code block", TextType.CODE),
+                                TextNode(" and an ", TextType.TEXT),
+                                TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+                                TextNode(" and a ", TextType.TEXT),
+                                TextNode("link", TextType.LINK, "https://boot.dev"),
+                            ])
 if __name__ == "__main__":
     unittest.main()

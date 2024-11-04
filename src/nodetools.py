@@ -4,14 +4,24 @@ from textnode import TextNode, TextType
 
 
 class NodeTools():
-    def split_nodes_delimiter(old_nodes, delimiter, text_type):
-        nodes = old_nodes.text.split(delimiter)
-        newnodes= []
-        for n in range(0,len(nodes)):
-            newnodes.append(TextNode(nodes[n], TextType.TEXT if (n%2==0) else text_type))
-        return newnodes
+    def split_nodes_delimiter( old_nodes, delimiter, text_type):
+        result = []
+        for node in old_nodes:
+            if node.text_type != TextType.TEXT:
+                result.append(node)
+                continue
+            pieces = node.text.split(delimiter)
+            for i in range(len(pieces)):
+                if pieces[i] == "":
+                   continue
+                current_type = TextType.TEXT if i % 2 == 0 else text_type
+                result.append(TextNode(pieces[i], current_type))
+            
+        return result
+    
     
     def extract_markdown_images(text):
+        
         s = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
         return s
     
@@ -22,7 +32,7 @@ class NodeTools():
     def split_nodes_image(old_nodes):
         result = []
         for node in old_nodes:
-            images = extract_markdown_images(node.text)
+            images = NodeTools.extract_markdown_images(node.text)
             if not images:
                 result.append(node)
                 continue
@@ -46,7 +56,7 @@ class NodeTools():
     def split_nodes_link(old_nodes):
         result = []
         for node in old_nodes:
-            links = extract_markdown_links(node.text)
+            links = NodeTools.extract_markdown_links(node.text)
             if not links:
                 result.append(node)
                 continue
@@ -66,3 +76,17 @@ class NodeTools():
             if current_text:
                 result.append(TextNode(current_text, TextType.TEXT))
         return result
+    
+    def text_to_textnodes(text):
+        nodes = [TextNode(text, TextType.TEXT)]
+        # Split for each markdown type in sequence
+        nodes = NodeTools.split_nodes_delimiter(nodes, "**", TextType.BOLD)
+        nodes = NodeTools.split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+        nodes = NodeTools.split_nodes_delimiter(nodes, "`", TextType.CODE)
+        # Split for images and links last
+        nodes = NodeTools.split_nodes_image(nodes)
+        nodes = NodeTools.split_nodes_link(nodes)
+        return nodes
+        
+        
+    
