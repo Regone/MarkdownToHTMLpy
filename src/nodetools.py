@@ -88,5 +88,29 @@ class NodeTools():
         nodes = NodeTools.split_nodes_link(nodes)
         return nodes
         
-        
+    def markdown_to_blocks(markdown):
+        splitted_text = markdown.replace('\r\n', '\n')
+        splitted_text = splitted_text.split('\n\n')
+        merged_text = []
+        for block in splitted_text:
+            cleaned_block = block.strip()
+            if not cleaned_block:
+                continue
+            else:
+                merged_text.append(cleaned_block)
+        return merged_text    
     
+    def block_to_block_type(block):
+        lines = block.split('\n')
+
+        if(re.match(r'#{1,6} ', block)):
+            return "heading"
+        elif block.startswith("```") and block.endswith("```"):
+            return "code"
+        elif all(line.startswith('>') for line in lines):
+            return "quote"
+        elif all(line.startswith('* ') or line.startswith('- ') for line in lines):
+            return "unordered_list"
+        elif all(line.startswith(f"{i}. ") for i, line in enumerate(lines, start=1)):
+            return "ordered_list"
+        return "paragraph"

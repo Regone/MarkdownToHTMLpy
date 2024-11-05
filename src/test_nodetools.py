@@ -64,5 +64,39 @@ class TestTextNode(unittest.TestCase):
                                 TextNode(" and a ", TextType.TEXT),
                                 TextNode("link", TextType.LINK, "https://boot.dev"),
                             ])
+    
+    def test_markdown_to_blocks(self):
+        node = "# This is a heading\n\nThis is a paragraph of text. It has some **bold** and *italic* words inside of it.\n\n* This is the first list item in a list block\n* This is a list item\n* This is another list item"
+        node= NodeTools.markdown_to_blocks(node)
+        self.assertEqual(node,[
+    "# This is a heading",
+    "This is a paragraph of text. It has some **bold** and *italic* words inside of it.",
+    "* This is the first list item in a list block\n* This is a list item\n* This is another list item"
+])
+    def test_heading(self):
+        block = "# Heading 1"
+        self.assertEqual(NodeTools.block_to_block_type(block), "heading")
+
+    def test_code(self):
+        block = "```\ncode line 1\ncode line 2\n```"
+        self.assertEqual(NodeTools.block_to_block_type(block), "code")
+
+    def test_quote(self):
+        block = "> Quote line 1\n> Quote line 2"
+        self.assertEqual(NodeTools.block_to_block_type(block), "quote")
+
+    def test_unordered_list(self):
+        block = "* Item A\n* Item B\n- Item C"
+        self.assertEqual(NodeTools.block_to_block_type(block), "unordered_list")
+
+    def test_ordered_list(self):
+        block = "1. Item A\n2. Item B\n3. Item C"
+        self.assertEqual(NodeTools.block_to_block_type(block), "ordered_list")
+
+    def test_paragraph(self):
+        block = "This is a regular paragraph."
+        self.assertEqual(NodeTools.block_to_block_type(block), "paragraph")
+            
+        
 if __name__ == "__main__":
     unittest.main()
