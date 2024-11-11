@@ -125,17 +125,25 @@ class NodeTools():
             match(block_to_block_type(block)):
                 case "heading":
                     nodes.append(HTMLNode(f"h{len(block)-len(block.lstrip("#"))}",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
-                                     
                 case "code":
-                    pass
+                    nodes.append(HTMLNode(f"code",None,NodeTools.text_to_textnodes(block.strip("```").strip())))
                 case "quote":
-                    pass
+                    nodes.append(HTMLNode(f"blockquote",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
                 case "unordered_list":
-                    pass
+                    nodes.append(HTMLNode(f"li",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
                 case "ordered_list":
-                    pass
+                    nodes.append(HTMLNode(f"li",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
                 case "paragraph":
-                    pass
-                
+                    nodes.append(HTMLNode(f"p",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
         div = HTMLNode("div",None,nodes)
         return div
+        
+        
+    def text_to_children(text):
+        nodes = NodeTools.text_to_textnodes(text)
+        leafnodes = []
+        for node in nodes:
+            leafnodes.append(node.text_node_to_html_node())
+            
+        return leafnodes
+        
