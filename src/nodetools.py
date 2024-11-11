@@ -1,5 +1,8 @@
 from os import link
 import re
+
+from more_itertools import lstrip
+from htmlnode import HTMLNode
 from textnode import TextNode, TextType
 
 
@@ -114,3 +117,25 @@ class NodeTools():
         elif all(line.startswith(f"{i}. ") for i, line in enumerate(lines, start=1)):
             return "ordered_list"
         return "paragraph"
+    
+    def markdown_to_html_node(markdown):
+        blocks = markdown_to_blocks(markdown)
+        nodes = []
+        for block in blocks:
+            match(block_to_block_type(block)):
+                case "heading":
+                    nodes.append(HTMLNode(f"h{len(block)-len(block.lstrip("#"))}",None,NodeTools.text_to_textnodes(block.lstrip('#').strip())))
+                                     
+                case "code":
+                    pass
+                case "quote":
+                    pass
+                case "unordered_list":
+                    pass
+                case "ordered_list":
+                    pass
+                case "paragraph":
+                    pass
+                
+        div = HTMLNode("div",None,nodes)
+        return div
