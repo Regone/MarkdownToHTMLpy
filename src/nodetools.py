@@ -3,6 +3,7 @@ import re
 
 from more_itertools import lstrip
 from htmlnode import HTMLNode
+from parentnode import ParentNode
 from textnode import TextNode, TextType
 
 
@@ -119,12 +120,12 @@ class NodeTools():
         return "paragraph"
     
     def markdown_to_html_node(markdown):
-        blocks = markdown_to_blocks(markdown)
+        blocks = NodeTools.markdown_to_blocks(markdown)
         nodes = []
         for block in blocks:
-            match(block_to_block_type(block)):
+            match(NodeTools.block_to_block_type(block)):
                 case "heading":
-                    nodes.append(HTMLNode(f"h{len(block)-len(block.lstrip("#"))}",None,NodeTools.text_to_children(block.lstrip('#').strip())))
+                    nodes.append(HTMLNode(f"h{len(block)-len(block.lstrip('#'))}",None,NodeTools.text_to_children(block.lstrip('#').strip())))
                 case "code":
                     nodes.append(HTMLNode("pre",None,[HTMLNode(f"code",None,NodeTools.text_to_children(block.strip("```").strip()))]))
                 case "quote":
@@ -135,7 +136,7 @@ class NodeTools():
                     nodes.append(HTMLNode("ol",None,[HTMLNode(f"li",None,NodeTools.text_to_children(block.split(". ", 1)[1].strip()))]))
                 case "paragraph":
                     nodes.append(HTMLNode(f"p",None,NodeTools.text_to_children(block.strip())))
-        div = HTMLNode("div",None,nodes)
+        div = ParentNode(nodes,"div",None)
         return div
         
         
