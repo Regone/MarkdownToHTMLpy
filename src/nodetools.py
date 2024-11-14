@@ -125,17 +125,17 @@ class NodeTools():
         for block in blocks:
             match(NodeTools.block_to_block_type(block)):
                 case "heading":
-                    nodes.append(HTMLNode(f"h{len(block)-len(block.lstrip('#'))}",None,NodeTools.text_to_children(block.lstrip('#').strip())))
+                    nodes.append(ParentNode(f"h{len(block)-len(block.lstrip('#'))}",NodeTools.text_to_children(block.lstrip('#').strip())))
                 case "code":
-                    nodes.append(HTMLNode("pre",None,[HTMLNode(f"code",None,NodeTools.text_to_children(block.strip("```").strip()))]))
+                    nodes.append(ParentNode("pre",[ParentNode(f"code",None,NodeTools.text_to_children(block.strip("```").strip()))]))
                 case "quote":
-                    nodes.append(HTMLNode(f"blockquote",None,NodeTools.text_to_children(block.lstrip('>').strip())))
+                    nodes.append(ParentNode(f"blockquote",NodeTools.text_to_children(block.lstrip('>').strip())))
                 case "unordered_list":
-                    nodes.append(HTMLNode("ul",None,[HTMLNode(f"li",None,NodeTools.text_to_children(block.lstrip('*').strip()))]))
+                    nodes.append(ParentNode("ul",[ParentNode(f"li",None,NodeTools.text_to_children(block.lstrip('*').strip()))]))
                 case "ordered_list":
-                    nodes.append(HTMLNode("ol",None,[HTMLNode(f"li",None,NodeTools.text_to_children(block.split(". ", 1)[1].strip()))]))
+                    nodes.append(ParentNode("ol",[ParentNode(f"li",None,NodeTools.text_to_children(block.split(". ", 1)[1].strip()))]))
                 case "paragraph":
-                    nodes.append(HTMLNode(f"p",None,NodeTools.text_to_children(block.strip())))
+                    nodes.append(ParentNode(f"p",NodeTools.text_to_children(block.strip())))
         div = ParentNode(nodes,"div",None)
         return div
         

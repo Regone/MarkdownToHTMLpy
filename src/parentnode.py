@@ -2,11 +2,12 @@ from htmlnode import HTMLNode
 
 
 class ParentNode(HTMLNode):
-    def __init__(self, children, tag = None, props = None):
+    def __init__(self, tag, children, props = None):
         super().__init__(tag,None,children,props)  
           
     def to_html(self):
         if(self.tag == None):
+            print(f"{self} and i have value error")
             raise ValueError
         if(self.children == None):
             raise ValueError
