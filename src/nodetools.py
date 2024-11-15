@@ -93,16 +93,32 @@ class NodeTools():
         return nodes
         
     def markdown_to_blocks(markdown):
+        # First normalize all newlines
         splitted_text = markdown.replace('\r\n', '\n')
+        
+        # Split into blocks using double newlines
         splitted_text = splitted_text.split('\n\n')
+        
         merged_text = []
         for block in splitted_text:
-            cleaned_block = block.strip()
-            if not cleaned_block:
-                continue
-            else:
-                merged_text.append(cleaned_block)
-        return merged_text    
+            # Add protection against empty lines
+            if block.strip():  # only process non-empty blocks
+                # Check if this is a list block, but only if the line isn't empty
+                is_list = (block.strip().startswith('*') or 
+                        any(line.strip() and line.strip()[0].isdigit() 
+                            for line in block.split('\n')))
+                
+                if is_list:
+                    # For lists, keep the newlines
+                    cleaned_block = block.strip()
+                else:
+                    # For non-lists, replace newlines with spaces
+                    cleaned_block = block.replace('\n', ' ').strip()
+                    
+                if cleaned_block:
+                    merged_text.append(cleaned_block)
+            
+        return merged_text
     
     def block_to_block_type(block):
         lines = block.split('\n')
@@ -131,12 +147,17 @@ class NodeTools():
                 case "quote":
                     nodes.append(ParentNode(f"blockquote",NodeTools.text_to_children(block.lstrip('>').strip())))
                 case "unordered_list":
-                    nodes.append(ParentNode("ul",[ParentNode(f"li",None,NodeTools.text_to_children(block.lstrip('*').strip()))]))
+                    list_items = []
+                    for item in block.split('\n'):
+                        if item.strip().startswith('*'):
+                            # Create li node for each item
+                            list_items.append(ParentNode("li", NodeTools.text_to_children(item.lstrip('*').strip())))
+                    nodes.append(ParentNode("ul", list_items))
                 case "ordered_list":
                     nodes.append(ParentNode("ol",[ParentNode(f"li",None,NodeTools.text_to_children(block.split(". ", 1)[1].strip()))]))
                 case "paragraph":
                     nodes.append(ParentNode(f"p",NodeTools.text_to_children(block.strip())))
-        div = ParentNode(nodes,"div",None)
+        div = ParentNode("div",nodes,None)
         return div
         
         
