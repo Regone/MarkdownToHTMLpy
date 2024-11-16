@@ -145,7 +145,12 @@ class NodeTools():
                 case "code":
                     nodes.append(ParentNode("pre",[ParentNode(f"code",None,NodeTools.text_to_children(block.strip("```").strip()))]))
                 case "quote":
-                    nodes.append(ParentNode(f"blockquote",NodeTools.text_to_children(block.lstrip('>').strip())))
+                    print("Original block:", repr(block))
+                    clean_text = block[1:].strip()
+                    print("Clean text:", repr(clean_text))
+                    children = NodeTools.text_to_children(clean_text)
+                    print("Children:", children)
+                    nodes.append(ParentNode("blockquote", children))
                 case "unordered_list":
                     list_items = []
                     for item in block.split('\n'):
@@ -163,6 +168,7 @@ class NodeTools():
         
     def text_to_children(text):
         nodes = NodeTools.text_to_textnodes(text)
+        print("Text nodes:", nodes)  # Add this line
         leafnodes = []
         for node in nodes:
             leafnodes.append(node.text_node_to_html_node())
