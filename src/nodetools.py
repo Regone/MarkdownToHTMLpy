@@ -155,7 +155,6 @@ class NodeTools():
                     list_items = []
                     for item in block.split('\n'):
                         if item.strip().startswith('*'):
-                            # Create li node for each item
                             list_items.append(ParentNode("li", NodeTools.text_to_children(item.lstrip('*').strip())))
                     nodes.append(ParentNode("ul", list_items))
                 case "ordered_list":
@@ -168,7 +167,7 @@ class NodeTools():
         
     def text_to_children(text):
         nodes = NodeTools.text_to_textnodes(text)
-        print("Text nodes:", nodes)  # Add this line
+        print("Text nodes:", nodes) 
         leafnodes = []
         for node in nodes:
             leafnodes.append(node.text_node_to_html_node())
