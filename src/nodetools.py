@@ -148,6 +148,7 @@ class NodeTools():
                     print("Original block:", repr(block))
                     clean_text = block[1:].strip()
                     print("Clean text:", repr(clean_text))
+                    print("Children:", NodeTools.text_to_children(clean_text))
                     children = NodeTools.text_to_children(clean_text)
                     print("Children:", children)
                     nodes.append(ParentNode("blockquote", children))
