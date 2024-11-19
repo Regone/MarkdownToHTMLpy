@@ -166,6 +166,7 @@ class NodeTools():
         return div
         
         
+        
     def text_to_children(text):
         nodes = NodeTools.text_to_textnodes(text)
         print("Text nodes:", nodes) 
