@@ -164,7 +164,8 @@ class NodeTools():
                     nodes.append(ParentNode(f"p",NodeTools.text_to_children(block.strip())))
         div = ParentNode("div",nodes,None)
         return div
-        
+    
+    
     def text_to_children(text):
         nodes = NodeTools.text_to_textnodes(text)
         print("Text nodes:", nodes) 
