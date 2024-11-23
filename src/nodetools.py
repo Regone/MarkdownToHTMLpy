@@ -152,6 +152,7 @@ class NodeTools():
                     children = NodeTools.text_to_children(clean_text)
                     print("Children:", children)
                     nodes.append(ParentNode("blockquote", children))
+                    
                 case "unordered_list":
                     list_items = []
                     for item in block.split('\n'):
