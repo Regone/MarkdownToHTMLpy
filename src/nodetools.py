@@ -172,6 +172,5 @@ class NodeTools():
         leafnodes = []
         for node in nodes:
             leafnodes.append(node.text_node_to_html_node())
-            
         return leafnodes
         
