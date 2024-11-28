@@ -148,7 +148,6 @@ This is another paragraph with *italic* text and `code` here
             html,
             "<div><ul><li>This is a list</li><li>with items</li><li>and <i>more</i> items</li></ul><ol><li>This is an <code>ordered</code> list</li><li>with items</li><li>and more items</li></ol></div>",
         )
-
     def test_headings(self):
         md = """
 # this is an h1
