@@ -160,7 +160,6 @@ this is paragraph text
             html,
             "<div><h1>this is an h1</h1><p>this is paragraph text</p><h2>this is an h2</h2></div>",
         )
-
     def test_blockquote(self):
         md = """
 > This is a
