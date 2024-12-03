@@ -174,6 +174,5 @@ this is paragraph text
             html,
             "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
         )
-
 if __name__ == "__main__":
     unittest.main()
