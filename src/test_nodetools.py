@@ -113,7 +113,6 @@ tag here
             "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p></div>",
         )
         
-
     def test_paragraphs(self):
         md = """
 This is **bolded** paragraph
