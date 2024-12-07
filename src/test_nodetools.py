@@ -105,7 +105,6 @@ text in a p
 tag here
 
 """
-
         node = NodeTools.markdown_to_html_node(md)
         html = node.to_html()
         self.assertEqual(
