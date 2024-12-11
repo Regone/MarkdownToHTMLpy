@@ -97,7 +97,6 @@ class TestTextNode(unittest.TestCase):
     def test_paragraph(self):
         block = "This is a regular paragraph."
         self.assertEqual(NodeTools.block_to_block_type(block), "paragraph")
-            
     def test_paragraph(self):
         md = """
 This is **bolded** paragraph
