@@ -15,7 +15,6 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("wata", TextType.IMAGE)
         self.assertEqual(node, node2)
 
-
     def test_eq3(self):
         node = TextNode("ima url ", TextType.LINK,"org.org")
         node2 = TextNode("ima url ", TextType.LINK,"org")
